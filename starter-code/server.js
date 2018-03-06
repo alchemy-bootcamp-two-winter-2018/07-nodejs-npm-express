@@ -11,16 +11,18 @@ const app = express();
 app.use(express.static('public'));
 
 // TODO: server new.html under the alias GET /new
+app.get('/new', (request, response) => {
+  response.sendFile(`${__dirname}/public/new.html`);
+});
 // (HINT: use response.sendFile)
 
-// TODO: add a app.get for `/api/articles` that returns the
+// TODOne: add a app.get for `/api/articles` that returns the
 // `data/hackerIpsum.json`
 app.get('/api/articles', (request, response) => {
-  // send a file (tomorrow is db)
   response.sendFile(`${__dirname}/data/hackerIpsum.json`);
 });
 
-// TODO: server your articles data on GET /api/articles
+// TODOne: server your articles data on GET /api/articles
 app.post('/api/articles', bodyParser, (request, response) => {
   const file = 'data/hackerIpsum.json';
   const raw = fs.readFileSync(file);
@@ -34,4 +36,8 @@ app.post('/api/articles', bodyParser, (request, response) => {
   response.send(request.body);
 
   // STRETCH GOAL: read, change, and write the data file
+});
+
+app.listen(3000, () => {
+  console.log('app up and running on port 3000');
 });
