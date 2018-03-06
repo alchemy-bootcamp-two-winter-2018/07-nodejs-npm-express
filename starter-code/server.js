@@ -13,12 +13,12 @@ app.use(express.urlencoded({extended: true}));
 // TODOne: server new.html under the alias GET /new
 // (HINT: use response.sendFile)
 app.get('/new', (request, response) => {
-  response.sendFile(`${__dirname}/data/hackerIpsum.json`);
+  response.sendFile(`${__dirname}/new.html`);
 });
-// TODO: add a app.get for `/api/articles` that returns the `data/hackerIpsum.json`
+// TODOne: add a app.get for `/api/articles` that returns the `data/hackerIpsum.json`
 app.get('/api/articles', (request, response) => {
-  
-})
+  response.sendFile(`${__dirname}/data/hackerIpsum`);
+});
 
 // TODO: server your articles data on GET /api/articles
 app.post('/api/articles', bodyParser, (request, response) => {
