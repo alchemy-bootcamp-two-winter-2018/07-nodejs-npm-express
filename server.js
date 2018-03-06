@@ -14,21 +14,21 @@ app.get('/new', (request, response) => {
 });
 // (HINT: use response.sendFile)
 
-// TODO: add a app.get for `/api/articles` that returns the
+// TODOne: add a app.get for `/api/articles` that returns the
 // `data/hackerIpsum.json`
 app.get('/api/articles', (request, response) => {
   response.sendFile(`${__dirname}/data/hackerIpsum.json`);
 });
 // TODO: server your articles data on GET /api/articles
-//app.post('/api/articles', bodyParser, (request, response) => {
+app.post('/api/articles', bodyParser, (request, response) => {
   // REVIEW: This route will receive a new article from the form page, new.html, and log that form data to the console. We will wire this up soon to actually write a record to our persistence layer!
-  //console.log(request.body);
+  console.log(request.body);
 
   // for now just return the body...
-  //response.send(request.body);
+  response.send(request.body);
 
   // STRETCH GOAL: read, change, and write the data file
-//});
+});
 
 app.use((request, response) => {
   response.statusCode = 404;

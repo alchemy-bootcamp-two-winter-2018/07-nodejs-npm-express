@@ -93,9 +93,10 @@ articleView.fetchAll = () => {
     articleView.setupView();
   } else {
     // TODO update me to work with actual new server path
-    $.getJSON('/data/hackerIpsum.json')
+    $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
+        console.log(data);
         localStorage.rawData = JSON.stringify(data);
         articleView.loadArticles(data);
         articleView.setupView();
@@ -106,7 +107,7 @@ articleView.fetchAll = () => {
 };
 
 articleView.loadArticles = rawData => {
-  const articles = Article.loadAll(rawData);
+  const articles = Article.load(rawData);
   articles.forEach(article =>{
     $('#articles').append(article.toHtml());
   });
@@ -175,7 +176,7 @@ articleView.setupView = () => {
 
 articleView.initIndexPage = () => {
   // 1) initiate data loading
-  articleView.loadArticles();
+  articleView.fetchAll();
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };
