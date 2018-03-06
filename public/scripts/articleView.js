@@ -74,14 +74,10 @@ articleView.setTeasers = () => {
   });
 };
 
-// COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// COMMENTed: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
+// This function is called at the very end of the body of new.html, which means it runs when the page has loaded. The only thing that really happens at that point, however, is that everything with a class of "tab-content" gets displayed. The remaining two functions are event listeners, and they run when the form is altered or submitted.
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
-  $('#article-json').on('focus', function(){
-    this.select();
-  });
-
   $('#new-form').on('change', 'input, textarea', articleView.preview);
   $('#new-form').on('submit', articleView.submit);
 };
@@ -111,8 +107,8 @@ articleView.loadArticles = rawData => {
   });
 };
 
-// COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// COMMENTed: When is this function called? What event ultimately triggers its execution?
+// This function is a form event handler. It gets called when the form "hears" a change event in an input or textarea element.
 articleView.preview = () => {
   let article;
   $('#articles').empty();
@@ -130,16 +126,16 @@ articleView.preview = () => {
   $('.read-on').hide();
 };
 
-// COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// COMMENTed: When is this function called? What event ultimately triggers its execution?
+// This function is a form event handler. It gets called when the form "hears" a submit event.
 articleView.submit = event => {
   event.preventDefault();
   // TODO: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
   const data = {}; // Call the raw data method
-  // COMMENT: Where is this function defined? When is this function called? 
+  // COMMENTed: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
+  // The function below is part of the submit method, so it's called when the form is submitted. It's defined in the next code block.
   articleView.insertRecord(data);
 };
 
