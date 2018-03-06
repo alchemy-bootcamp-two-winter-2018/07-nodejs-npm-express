@@ -7,14 +7,20 @@ const app = express();
 const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
 const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
 
-// TODO: use express.static to server the public path!
+// TODOne: use express.static to server the public path!
 app.use(express.static('public'));
 
-// TODO: server new.html under the alias GET /new
+// TODOne: server new.html under the alias GET /new
 // (HINT: use response.sendFile)
+app.get('/new', (request, response) => {
+  response.sendFile(`${__dirname}/new.html`);
+});
 
-// TODO: add a app.get for `/api/articles` that returns the
+// TODOne: add a app.get for `/api/articles` that returns the
 // `data/hackerIpsum.json`
+app.get('/api/articles', (request, response) => {
+  response.sendfile(`${__dirname}/data/hackerIpsum.json`);
+});
 
 // TODO: server your articles data on GET /api/articles
 app.post('/api/articles', bodyParser, (request, response) => {
