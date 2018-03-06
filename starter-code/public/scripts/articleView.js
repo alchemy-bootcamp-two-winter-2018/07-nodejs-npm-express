@@ -75,7 +75,7 @@ articleView.setTeasers = () => {
 };
 
 // COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// It is invoked at the end of the new.html body tag. It is triggered when the page is loaded. It is showing all the `.tab-contnt` elements. Then it hides all the `#export-field` elements. When the `#article-json` element is being focused on it triggers the select function. When the form is changed is calls the articleView.preview and when the submit button is clicked it calls the articleView.submit function.
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
   $('#export-field').hide();
