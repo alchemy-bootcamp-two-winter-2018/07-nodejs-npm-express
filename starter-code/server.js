@@ -1,16 +1,24 @@
 'use strict';
 // require your dependencies!
-
+const express = require('express');
+// const fs = require('fs');
+const app = express();
 const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
 const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
 
-// TODO: use express.static to server the public path!
+// TODOne: use express.static to server the public path!
+app.use(express.static('public'));
+app.use(express.urlencoded({extended: true}));
 
-// TODO: server new.html under the alias GET /new
+// TODOne: server new.html under the alias GET /new
 // (HINT: use response.sendFile)
-
-// TODO: add a app.get for `/api/articles` that returns the
-// `data/hackerIpsum.json`
+app.get('/new', (request, response) => {
+  response.sendFile(`${__dirname}/data/hackerIpsum.json`);
+});
+// TODO: add a app.get for `/api/articles` that returns the `data/hackerIpsum.json`
+app.get('/api/articles', (request, response) => {
+  
+})
 
 // TODO: server your articles data on GET /api/articles
 app.post('/api/articles', bodyParser, (request, response) => {
@@ -21,4 +29,7 @@ app.post('/api/articles', bodyParser, (request, response) => {
   response.send(request.body);
 
   // STRETCH GOAL: read, change, and write the data file
+});
+app.listen(3000, () => {
+  console.log('working port 3000');
 });
