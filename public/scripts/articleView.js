@@ -92,7 +92,7 @@ articleView.fetchAll = () => {
     articleView.loadArticles(JSON.parse(localStorage.rawData));
     articleView.setupView();
   } else {
-    // TODO update me to work with actual new server path
+    // TODOne update me to work with actual new server path
     $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!

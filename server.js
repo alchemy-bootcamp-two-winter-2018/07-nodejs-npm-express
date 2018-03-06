@@ -1,24 +1,23 @@
 'use strict';
-// require your dependencies!
 
+// TODOne require your dependencies!
 const express = require('express');
 const app = express();
 
-const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
-const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
+const bodyParser = express.urlencoded({extended: true});
+const PORT = process.env.PORT || 3000;
 
-// TODO: use express.static to server the public path!
+// TODOne: use express.static to server the public path!
 app.use(express.static('public'));
 
-// TODO: server new.html under the alias GET /new
+// TODOne: server new.html under the alias GET /new
 // (HINT: use response.sendFile)
 app.get('/new', (request, response) => {
   response.sendFile(`${__dirname}/public/new.html`);
 });
 
-// TODO: add a app.get for `/api/articles` that returns the
+// TODOne: add a app.get for `/api/articles` that returns the
 // `data/hackerIpsum.json`
-// TODO: server your articles data on GET /api/articles
 app.get('/api/articles', (request, response) => {
   response.sendFile(`${__dirname}/data/hackerIpsum.json`);
 });
@@ -32,6 +31,19 @@ app.post('/api/articles', bodyParser, (request, response) => {
 
   // STRETCH GOAL: read, change, and write the data file
 });
+
+app.use((request, response) => {
+  response.statusCode = 404;
+  response.send(`This page doesn't exist.`);
+});
+
+// app.use((request, response) => {
+//   response.statusCode = 404;
+//   response.send(`
+//     Oh noes! Page ${request.url} doesn't exist. 
+//     But, you still get ${cool()}
+//   `);
+// });
 
 app.listen(PORT, () => {
 });
