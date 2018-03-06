@@ -93,7 +93,7 @@ articleView.fetchAll = () => {
     articleView.setupView();
   } else {
     // TODO update me to work with actual new server path
-    $.getJSON('/data/hackerIpsum.json')
+    $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
         localStorage.rawData = JSON.stringify(data);
@@ -175,7 +175,7 @@ articleView.setupView = () => {
 
 articleView.initIndexPage = () => {
   // 1) initiate data loading
-  articleView.loadArticles();
+  articleView.fetchAll();
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };
