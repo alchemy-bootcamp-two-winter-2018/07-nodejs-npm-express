@@ -1,10 +1,12 @@
 'use strict';
 // require your dependencies!
+const express = require('express');
 
 const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
 const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
 
 // TODO: use express.static to server the public path!
+const app = express();
 
 // TODO: server new.html under the alias GET /new
 // (HINT: use response.sendFile)
