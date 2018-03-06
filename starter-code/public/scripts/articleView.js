@@ -144,7 +144,7 @@ articleView.preview = () => {
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// This function is called when the submit button on the form is clicked.
 articleView.submit = event => {
   event.preventDefault();
   // TODOne: Extract the getDataFrom form from the preview, so you can
@@ -153,7 +153,7 @@ articleView.submit = event => {
   // Call the raw data method
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
+  // This function is defined below and it is also tied to when the submit button is clicked
   articleView.insertRecord(data);
 };
 
