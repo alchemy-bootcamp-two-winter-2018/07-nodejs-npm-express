@@ -3,8 +3,8 @@
 const express = require('express');
 const fs = require('fs');
 
-const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
-const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
+const bodyParser = express.urlencoded({extended: true});// TODOne: remove me when PORT is used
+const PORT = process.env.PORT || 3000; // TODOne: remove me when PORT is used
 
 // TODOne: use express.static to server the public path!
 const app = express();
@@ -38,6 +38,6 @@ app.post('/api/articles', bodyParser, (request, response) => {
   // STRETCH GOAL: read, change, and write the data file
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('app up and running on port 3000');
 });

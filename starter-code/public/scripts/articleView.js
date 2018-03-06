@@ -75,7 +75,7 @@ articleView.setTeasers = () => {
 };
 
 // COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// This function is called at the bottom of the new.html and it has the function for the preview and the inputted information. 
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
   $('#export-field').hide();
@@ -124,7 +124,7 @@ articleView.getFormData = function () {
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// This is called when the form input feilds change
 articleView.preview = () => {
   let article;
   $('#articles').empty();
