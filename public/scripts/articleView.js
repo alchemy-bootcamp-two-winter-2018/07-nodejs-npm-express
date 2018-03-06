@@ -78,7 +78,6 @@ articleView.setTeasers = () => {
 // PUT YOUR RESPONSE HERE
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
-  $('#export-field').hide();
   $('#article-json').on('focus', function(){
     this.select();
   });
@@ -128,13 +127,7 @@ articleView.preview = () => {
   });
 
   $('#articles').append(article.toHtml());
-
-  $('pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
-  // TODO: Do we need an export field?
-  $('#export-field').show();
-  $('#article-json').val(`${JSON.stringify(article)},`);
+  $('.read-on').hide();
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
