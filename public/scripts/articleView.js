@@ -133,7 +133,7 @@ articleView.preview = () => {
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
-  // TODO: Do we need an export field?
+  // TODOne: Do we need an export field? sure why not. get me used to looking at json
   $('#export-field').show();
   $('#article-json').val(`${JSON.stringify(article)},`);
 };
@@ -144,7 +144,7 @@ articleView.submit = event => {
   event.preventDefault();
   // TODO: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = {}; // Call the raw data method
+  const data =  $('#article-json').val(); // Call the raw data method
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
   // PUT YOUR RESPONSE HERE
@@ -155,7 +155,6 @@ articleView.submit = event => {
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
 articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
   // TODO: POST the article to the server
-
 
   // when the save is complete, console.log the returned data object
 
