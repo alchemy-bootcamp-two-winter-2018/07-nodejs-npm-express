@@ -75,7 +75,7 @@ articleView.setTeasers = () => {
 };
 
 // COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// It is invoked at the bottom of new.html because when the webpage is requested, that's the time to render that page (not before). All the scripts invoked before it are necessary for the page to load in the correct order.
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
   $('#export-field').hide();
@@ -93,7 +93,7 @@ articleView.fetchAll = () => {
     articleView.setupView();
   } else {
     // TODO update me to work with actual new server path
-    $.getJSON('/data/hackerIpsum.json')
+    $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
         localStorage.rawData = JSON.stringify(data);
@@ -106,14 +106,14 @@ articleView.fetchAll = () => {
 };
 
 articleView.loadArticles = rawData => {
-  const articles = Article.loadAll(rawData);
+  const articles = Article.load(rawData);
   articles.forEach(article =>{
     $('#articles').append(article.toHtml());
   });
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// It fires in response to the event listener set up for when the form changes above in the initNewArticlePage function
 articleView.preview = () => {
   let article;
   $('#articles').empty();
@@ -132,13 +132,13 @@ articleView.preview = () => {
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
-  // TODO: Do we need an export field?
-  $('#export-field').show();
+  // TODOne: Do we need an export field?
+  // $('#export-field').show();
   $('#article-json').val(`${JSON.stringify(article)},`);
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// When the submit button is pressed, this function is called.
 articleView.submit = event => {
   event.preventDefault();
   // TODO: Extract the getDataFrom form from the preview, so you can
@@ -175,7 +175,7 @@ articleView.setupView = () => {
 
 articleView.initIndexPage = () => {
   // 1) initiate data loading
-  articleView.loadArticles();
+  articleView.fetchAll();
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };
