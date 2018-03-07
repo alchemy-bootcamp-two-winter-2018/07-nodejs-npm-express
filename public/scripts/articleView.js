@@ -107,20 +107,25 @@ articleView.loadArticles = rawData => {
   });
 };
 
-// COMMENTed: When is this function called? What event ultimately triggers its execution?
-// This function is a form event handler. It gets called when the form "hears" a change event in an input or textarea element.
-articleView.preview = () => {
-  let article;
-  $('#articles').empty();
-
-  article = new Article({
+articleView.getFormData = () => {
+  return {
     title: $('#article-title').val(),
     author: $('#article-author').val(),
     authorUrl: $('#article-author-url').val(),
     category: $('#article-category').val(),
     body: $('#article-body').val(),
     publishedOn: $('#article-published:checked').length ? new Date() : null
-  });
+  };
+};
+
+// COMMENTed: When is this function called? What event ultimately triggers its execution?
+// This function is a form event handler. It gets called when the form "hears" a change event in an input or textarea element.
+articleView.preview = () => {
+  let article;
+  $('#articles').empty();
+
+  const formData = articleView.getFormData();
+  article = new Article(formData);
 
   $('#articles').append(article.toHtml());
   $('.read-on').hide();
@@ -130,13 +135,13 @@ articleView.preview = () => {
 // This function is a form event handler. It gets called when the form "hears" a submit event.
 articleView.submit = event => {
   event.preventDefault();
-  // TODO: Extract the getDataFrom form from the preview, so you can
+  // TODOne: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = {}; // Call the raw data method
+  const formData = articleView.getFormData(); // Call the raw data method
   // COMMENTed: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
   // The function below is part of the submit method, so it's called when the form is submitted. It's defined in the next code block.
-  articleView.insertRecord(data);
+  articleView.insertRecord(formData);
 };
 
 
