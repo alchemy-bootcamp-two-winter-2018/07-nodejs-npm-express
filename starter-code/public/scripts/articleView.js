@@ -136,9 +136,7 @@ articleView.preview = () => {
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
-  // TODO: Do we need an export field?
-  $('#export-field').show();
-  $('#article-json').val(`${JSON.stringify(article)},`);
+  // TODOne: Do we need an export field? No.
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
