@@ -3,6 +3,7 @@
 // TODOne require your dependencies!
 const express = require('express');
 const app = express();
+const fs = require('fs');
 
 const bodyParser = express.urlencoded({extended: true});
 const PORT = process.env.PORT || 3000;
@@ -29,21 +30,18 @@ app.post('/api/articles', bodyParser, (request, response) => {
   // for now just return the body...
   response.send(request.body);
 
-  // STRETCH GOAL: read, change, and write the data file
+  // STRETCH GOALed: read, change, and write the data file
+  const file = 'data/hackerIpsum.json';
+  const raw = fs.readFileSync(file);
+  const articles = JSON.parse(raw);
+  articles.push(request.body);
+  fs.writeFileSync(file, JSON.stringify(articles, true, 2));
 });
 
 app.use((request, response) => {
   response.statusCode = 404;
   response.send(`This page doesn't exist.`);
 });
-
-// app.use((request, response) => {
-//   response.statusCode = 404;
-//   response.send(`
-//     Oh noes! Page ${request.url} doesn't exist. 
-//     But, you still get ${cool()}
-//   `);
-// });
 
 app.listen(PORT, () => {
 });

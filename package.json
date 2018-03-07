@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/kelihansen/07-nodejs-npm-express#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2"
   },
   "devDependencies": {
