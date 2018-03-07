@@ -92,7 +92,7 @@ articleView.fetchAll = () => {
     articleView.loadArticles(JSON.parse(localStorage.rawData));
     articleView.setupView();
   } else {
-    // TODO update me to work with actual new server path
+    // TODOne update me to work with actual new server path
     $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
@@ -117,15 +117,8 @@ articleView.loadArticles = rawData => {
 articleView.preview = () => {
   let article;
   $('#articles').empty();
-
-  article = new Article({
-    title: $('#article-title').val(),
-    author: $('#article-author').val(),
-    authorUrl: $('#article-author-url').val(),
-    category: $('#article-category').val(),
-    body: $('#article-body').val(),
-    publishedOn: $('#article-published:checked').length ? new Date() : null
-  });
+  const data = articleView.getFormData();
+  article = new Article(data);
 
   $('#articles').append(article.toHtml());
 
@@ -138,23 +131,26 @@ articleView.preview = () => {
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// When the submit button is pressed, this function is called.
+// When the user finishes a new form and the submit button is pressed, this function is called.
 articleView.submit = event => {
   event.preventDefault();
-  // TODO: Extract the getDataFrom form from the preview, so you can
+  // TODOne: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = {}; // Call the raw data method
+
+  const data = articleView.getFormData(); // Call the raw data method
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
+  // It is defined immediately below, and called when the user submits the form. 
   articleView.insertRecord(data);
 };
 
 
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
-articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
-  // TODO: POST the article to the server
-
+articleView.insertRecord = data => { 
+  // TODOne: remove me when article is used in method! 
+  // TODOne: POST the article to the server
+  
+  $.post('/api/articles', data);
 
   // when the save is complete, console.log the returned data object
 
@@ -179,3 +175,15 @@ articleView.initIndexPage = () => {
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };
+
+articleView.getFormData = () => {
+  return {
+    title: $('#article-title').val(),
+    author: $('#article-author').val(),
+    authorUrl: $('#article-author-url').val(),
+    category: $('#article-category').val(),
+    body: $('#article-body').val(),
+    publishedOn: $('#article-published:checked').length ? new Date() : null
+  };
+};
+
