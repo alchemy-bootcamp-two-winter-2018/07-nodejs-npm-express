@@ -7,24 +7,24 @@ const fs = require('fs');
 
 const app = express();
 
-const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
-const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
+const bodyParser = express.urlencoded({extended: true}); 
+const PORT = process.env.PORT || 3000;
 
 // TODONE: use express.static to server the public path!
 app.use(express.static('public'));
 // TODONE: server new.html under the alias GET /new
 // (HINT: use response.sendFile)
-app.get('new', (request, response) => {
-  response.sendFile(`${__dirname}public/new.html`);
+app.get('/new', (request, response) => {
+  response.sendFile(`${__dirname}/public/new.html`);
 })
 // TODONE: add a app.get for `/api/articles` that returns the
 // `data/hackerIpsum.json`
-app.get('api/articles', (request, response) => {
-  response.sendFile(`data/hackerIpsum.json`);
+app.get('/api/articles', (request, response) => {
+  response.sendFile(`${__dirname}/data/hackerIpsum.json`);
 })
 // TODONE: server your articles data on GET /api/articles
-app.post('api/articles', bodyParser, (request, response) => {
-  const file = 'data/hackerIpsum.json';
+app.post('/api/articles', bodyParser, (request, response) => {
+  const file = `${__dirname}/data/hackerIpsum.json`;
   const raw = fs.readFileSync(file);
   const article = JSON.parse(raw);
   article.push(request.body);

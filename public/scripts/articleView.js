@@ -92,8 +92,8 @@ articleView.fetchAll = () => {
     articleView.loadArticles(JSON.parse(localStorage.rawData));
     articleView.setupView();
   } else {
-    // TODO update me to work with actual new server path
-    $.getJSON('api/articles')
+    // TODONE: update me to work with actual new server path
+    $.getJSON('/api/articles')
       .then(data => {
         localStorage.rawData = JSON.stringify(data);
         articleView.loadArticles(data);
@@ -111,6 +111,7 @@ articleView.loadArticles = rawData => {
   });
 };
 
+
 articleView.getFormData = () => {
   return new Article({
     title: $('#article-title').val(),
@@ -125,42 +126,36 @@ articleView.getFormData = () => {
 // It is triggered by the event of changing the form.
 articleView.preview = () => {
 
-  // TODO: Do we need an export field?
-  $('#export-field').show();
-  $('#article-json').val(`${JSON.stringify(data)},`);
+  // TODONE: Do we need an export field? No? I think?
+  $('#article-json').val(JSON.stringify(this.data));
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// It's triggered by a clink event on the submit button.
+// It's triggered by a click event on the submit button.
 articleView.submit = event => {
   event.preventDefault();
   // TODONE: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = this.getFormData();
-
+  const data = articleView.getFormData();
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
+  // I'm guessing this is refering to insertRecord, which comes directly after it's call, which is a submit event.
   articleView.insertRecord(data);
 };
 
 
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
-articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
-  // TODO: POST the article to the server
-
+articleView.insertRecord = data => { // TODONE: remove me when article is used in method! 
+  // TODONE: POST the article to the server
+  $.post('/api/articles', data, (request, response) => {
+    console.log(data);
+  });
 
   // when the save is complete, console.log the returned data object
-
-  // STRETCH: pick one that happens _after_ post is done:
-  // 1) clear the form, so user can input a new one
-  // 2) navigate to the index page
-  // (HINT: use: `window.location = <url>`)
 };
 
 articleView.setupView = () => {
-  // 3) after the data is loaded this function will be called
-  //    to finishing setting up the view!
+
   articleView.populateFilters();
   articleView.handleCategoryFilter();
   articleView.handleAuthorFilter();
@@ -168,8 +163,7 @@ articleView.setupView = () => {
 };
 
 articleView.initIndexPage = () => {
-  // 1) initiate data loading
+
   articleView.fetchAll();
-  // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };
