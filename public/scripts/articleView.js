@@ -75,7 +75,7 @@ articleView.setTeasers = () => {
 };
 
 // COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// This is being run on the new.html page after all the html has been loaded, the call to trigget the function is in a script tag. The function shows the top tabs, hides the export field until preview is filled and selects all when clicked on. It also submits new articles on button click. 
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
   $('#export-field').hide();
@@ -93,9 +93,8 @@ articleView.fetchAll = () => {
     articleView.setupView();
   } else {
     // TODO update me to work with actual new server path
-    $.getJSON('/data/hackerIpsum.json')
+    $.getJSON('api/articles')
       .then(data => {
-        // store the data for next time!
         localStorage.rawData = JSON.stringify(data);
         articleView.loadArticles(data);
         articleView.setupView();
@@ -106,19 +105,14 @@ articleView.fetchAll = () => {
 };
 
 articleView.loadArticles = rawData => {
-  const articles = Article.loadAll(rawData);
+  const articles = Article.load(rawData);
   articles.forEach(article =>{
     $('#articles').append(article.toHtml());
   });
 };
 
-// COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
-articleView.preview = () => {
-  let article;
-  $('#articles').empty();
-
-  article = new Article({
+articleView.getFormData = () => {
+  return new Article({
     title: $('#article-title').val(),
     author: $('#article-author').val(),
     authorUrl: $('#article-author-url').val(),
@@ -126,24 +120,24 @@ articleView.preview = () => {
     body: $('#article-body').val(),
     publishedOn: $('#article-published:checked').length ? new Date() : null
   });
+};
+// COMMENT: When is this function called? What event ultimately triggers its execution?
+// It is triggered by the event of changing the form.
+articleView.preview = () => {
 
-  $('#articles').append(article.toHtml());
-
-  $('pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
   // TODO: Do we need an export field?
   $('#export-field').show();
-  $('#article-json').val(`${JSON.stringify(article)},`);
+  $('#article-json').val(`${JSON.stringify(data)},`);
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// It's triggered by a clink event on the submit button.
 articleView.submit = event => {
   event.preventDefault();
-  // TODO: Extract the getDataFrom form from the preview, so you can
+  // TODONE: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = {}; // Call the raw data method
+  const data = this.getFormData();
+
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
   // PUT YOUR RESPONSE HERE
@@ -175,7 +169,7 @@ articleView.setupView = () => {
 
 articleView.initIndexPage = () => {
   // 1) initiate data loading
-  articleView.loadArticles();
+  articleView.fetchAll();
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };
