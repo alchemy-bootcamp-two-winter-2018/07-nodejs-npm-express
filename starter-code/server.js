@@ -7,6 +7,10 @@ const app = express();
 const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
 const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
 
+app.listen(3000, () => {
+  console.log('app up and running on port 3000');
+});
+
 // TODOne: use express.static to server the public path!
 app.use(express.static('public'));
 
