@@ -146,7 +146,7 @@ articleView.submit = event => {
 
 
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
-articleView.insertRecord = formData => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
+articleView.insertRecord = formData => { 
   // TODOne: POST the article to the server
   $.post('/api/articles', formData);
   // when the save is complete, console.log the returned data object
