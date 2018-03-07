@@ -75,7 +75,7 @@ articleView.setTeasers = () => {
 };
 
 // COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// Invoked in new.html as the final script to be run. It shows the form and hides the export field. Sets event handlers for generating the preview and clicking the submit button.
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
   $('#export-field').hide();
@@ -92,7 +92,7 @@ articleView.fetchAll = () => {
     articleView.loadArticles(JSON.parse(localStorage.rawData));
     articleView.setupView();
   } else {
-    // TODO update me to work with actual new server path
+    // TODOne update me to work with actual new server path
     $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
@@ -114,7 +114,7 @@ articleView.loadArticles = rawData => {
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// this is called when the user changes from an input field on the form. This is invoked from an event handler in articleView.initNewArticlePage
 articleView.preview = () => {
   let article;
   $('#articles').empty();
@@ -133,21 +133,23 @@ articleView.preview = () => {
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
-  // TODOne: Do we need an export field? sure why not. get me used to looking at json
+  // TODOne: Do we need an export field? - sure why not? gets me used to looking at json
   $('#export-field').show();
   $('#article-json').val(`${JSON.stringify(article)},`);
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// the is called from the submit event handler in articleView.initNewArticlePage
 articleView.submit = event => {
   event.preventDefault();
-  // TODO: Extract the getDataFrom form from the preview, so you can
+  // TODOne: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data =  $('#article-json').val(); // Call the raw data method
+  const data =  $('#article-json').val();
+  console.log(data);
+  // Call the raw data method
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
+  // ^^Not sure if this is referring to below function, but the rawData method  
   articleView.insertRecord(data);
 };
 
@@ -155,7 +157,7 @@ articleView.submit = event => {
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
 articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
   // TODO: POST the article to the server
-
+  $.post('/api/articles', data);
   // when the save is complete, console.log the returned data object
 
   // STRETCH: pick one that happens _after_ post is done:
