@@ -2,13 +2,13 @@
 
 const template = Handlebars.compile($('#article-template').html());
 
-function Article (rawDataObj) {
-  this.author = rawDataObj.author;
-  this.authorUrl = rawDataObj.authorUrl;
-  this.title = rawDataObj.title;
-  this.category = rawDataObj.category;
-  this.body = rawDataObj.body;
-  this.publishedOn = rawDataObj.publishedOn;
+function Article (Obj) {
+  this.author = Obj.author;
+  this.authorUrl = Obj.authorUrl;
+  this.title = Obj.title;
+  this.category = Obj.category;
+  this.body = Obj.body;
+  this.publishedOn = Obj.publishedOn;
   this.daysAgo = parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000);
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
