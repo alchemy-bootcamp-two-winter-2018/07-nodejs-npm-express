@@ -44,4 +44,5 @@ app.use((request, response) => {
 });
 
 app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}!`);
 });
