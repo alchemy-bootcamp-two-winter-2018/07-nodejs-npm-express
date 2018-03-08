@@ -96,7 +96,6 @@ articleView.fetchAll = () => {
     $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
-        console.log(data);
         localStorage.rawData = JSON.stringify(data);
         articleView.loadArticles(data);
         articleView.setupView();
@@ -134,7 +133,7 @@ articleView.preview = () => {
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
-  // TODOne: Do we need an export field? - sure why not? gets me used to looking at json
+  // TODOne: Do we need an export field? - No, since the data being used on submit is coming directly from the form fields. (line 147)
   $('#export-field').show();
   $('#article-json').val(`${JSON.stringify(article)},`);
 };
