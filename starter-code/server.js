@@ -5,10 +5,10 @@ const fs = require('fs');
 
 const app = express();
 
-const bodyParser = express.urlencoded({extended: true}); /* eslint-disable-line */ // TODO: remove me when PORT is used
-const PORT = process.env.PORT || 3000; /* eslint-disable-line */ // TODO: remove me when PORT is used
+const bodyParser = express.urlencoded({extended: true}); // TODO: remove me when PORT is used
+const PORT = process.env.PORT || 3000; // TODO: remove me when PORT is used
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('app up and running on port 3000');
 });
 
