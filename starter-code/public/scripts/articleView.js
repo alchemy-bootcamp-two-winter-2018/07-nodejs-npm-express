@@ -138,8 +138,8 @@ articleView.preview = () => {
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
-  // TODO: Do we need an export field?
-  $('#export-field').show();
+  // TODOne: Do we need an export field? Nope!
+  // $('#export-field').show();
   $('#article-json').val(`${JSON.stringify(article)},`);
 };
 
@@ -159,7 +159,7 @@ articleView.submit = event => {
 
 
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
-articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
+articleView.insertRecord = data => { // TODOne: remove me when article is used in method! 
   // TODOne: POST the article to the server
   $.post('/api/articles', data);
 
