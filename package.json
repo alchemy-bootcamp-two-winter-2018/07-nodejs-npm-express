@@ -1,0 +1,29 @@
+{
+  "name": "07-nodejs-npm-express",
+  "version": "1.0.0",
+  "description": "Kilovolt Blog: Now with Node",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelihansen/07-nodejs-npm-express.git"
+  },
+  "author": "Keli Hansen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kelihansen/07-nodejs-npm-express/issues"
+  },
+  "homepage": "https://github.com/kelihansen/07-nodejs-npm-express#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "nodemon": "^1.17.1"
+  }
+}

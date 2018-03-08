@@ -74,15 +74,10 @@ articleView.setTeasers = () => {
   });
 };
 
-// COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// COMMENTed: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
+// This function is called at the very end of the body of new.html, which means it runs when the page has loaded. The only thing that really happens at that point, however, is that everything with a class of "tab-content" gets displayed. The remaining two functions are event listeners, and they run when the form is altered or submitted.
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
-  $('#export-field').hide();
-  $('#article-json').on('focus', function(){
-    this.select();
-  });
-
   $('#new-form').on('change', 'input, textarea', articleView.preview);
   $('#new-form').on('submit', articleView.submit);
 };
@@ -92,8 +87,8 @@ articleView.fetchAll = () => {
     articleView.loadArticles(JSON.parse(localStorage.rawData));
     articleView.setupView();
   } else {
-    // TODO update me to work with actual new server path
-    $.getJSON('/data/hackerIpsum.json')
+    // TODOne update me to work with actual new server path
+    $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
         localStorage.rawData = JSON.stringify(data);
@@ -112,54 +107,54 @@ articleView.loadArticles = rawData => {
   });
 };
 
-// COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
-articleView.preview = () => {
-  let article;
-  $('#articles').empty();
-
-  article = new Article({
+articleView.getFormData = () => {
+  return {
     title: $('#article-title').val(),
     author: $('#article-author').val(),
     authorUrl: $('#article-author-url').val(),
     category: $('#article-category').val(),
     body: $('#article-body').val(),
     publishedOn: $('#article-published:checked').length ? new Date() : null
-  });
-
-  $('#articles').append(article.toHtml());
-
-  $('pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
-  // TODO: Do we need an export field?
-  $('#export-field').show();
-  $('#article-json').val(`${JSON.stringify(article)},`);
+  };
 };
 
-// COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// COMMENTed: When is this function called? What event ultimately triggers its execution?
+// This function is a form event handler. It gets called when the form "hears" a change event in an input or textarea element.
+articleView.preview = () => {
+  let article;
+  $('#articles').empty();
+
+  const formData = articleView.getFormData();
+  article = new Article(formData);
+
+  $('#articles').append(article.toHtml());
+  $('.read-on').hide();
+};
+
+// COMMENTed: When is this function called? What event ultimately triggers its execution?
+// This function is a form event handler. It gets called when the form "hears" a submit event.
 articleView.submit = event => {
   event.preventDefault();
-  // TODO: Extract the getDataFrom form from the preview, so you can
+  // TODOne: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = {}; // Call the raw data method
-  // COMMENT: Where is this function defined? When is this function called? 
+  const formData = articleView.getFormData(); // Call the raw data method
+  // COMMENTed: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
-  articleView.insertRecord(data);
+  // The function below is part of the submit method, so it's called when the form is submitted. It's defined in the next code block.
+  articleView.insertRecord(formData);
 };
 
 
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
-articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
-  // TODO: POST the article to the server
-
-
+articleView.insertRecord = formData => {
+  // TODOne: POST the article to the server
+  $.post('/api/articles', formData);
   // when the save is complete, console.log the returned data object
+  console.log(formData);
 
-  // STRETCH: pick one that happens _after_ post is done:
+  // STRETCHed: pick one that happens _after_ post is done:
   // 1) clear the form, so user can input a new one
+  $('form')[0].reset();
   // 2) navigate to the index page
   // (HINT: use: `window.location = <url>`)
 };
@@ -175,7 +170,7 @@ articleView.setupView = () => {
 
 articleView.initIndexPage = () => {
   // 1) initiate data loading
-  articleView.loadArticles();
+  articleView.fetchAll();
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };

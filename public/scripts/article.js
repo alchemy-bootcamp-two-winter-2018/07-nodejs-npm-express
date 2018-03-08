@@ -18,7 +18,7 @@ Article.prototype.toHtml = function() {
   return template(this);
 };
 
-Article.load = articleData => {
+Article.loadAll = articleData => {
   const articles = [];
   articleData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)));
   articleData.forEach(articleObject => articles.push(new Article(articleObject)));
