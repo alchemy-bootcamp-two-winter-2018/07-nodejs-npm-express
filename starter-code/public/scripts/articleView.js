@@ -75,7 +75,7 @@ articleView.setTeasers = () => {
 };
 
 // COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// It is invoked at the end of the new.html body tag. It is triggered when the page is loaded. It is showing all the `.tab-contnt` elements. Then it hides all the `#export-field` elements. When the `#article-json` element is being focused on it triggers the select function. When the form is changed is calls the articleView.preview and when the submit button is clicked it calls the articleView.submit function.
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
   $('#export-field').hide();
@@ -92,8 +92,8 @@ articleView.fetchAll = () => {
     articleView.loadArticles(JSON.parse(localStorage.rawData));
     articleView.setupView();
   } else {
-    // TODO update me to work with actual new server path
-    $.getJSON('/data/hackerIpsum.json')
+    // TODOne: update me to work with actual new server path
+    $.getJSON('/api/articles')
       .then(data => {
         // store the data for next time!
         localStorage.rawData = JSON.stringify(data);
@@ -106,47 +106,49 @@ articleView.fetchAll = () => {
 };
 
 articleView.loadArticles = rawData => {
-  const articles = Article.loadAll(rawData);
+  const articles = Article.load(rawData);
   articles.forEach(article =>{
     $('#articles').append(article.toHtml());
   });
 };
 
-// COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
-articleView.preview = () => {
-  let article;
-  $('#articles').empty();
-
-  article = new Article({
+articleView.getFromData = () => {
+  return {
     title: $('#article-title').val(),
     author: $('#article-author').val(),
     authorUrl: $('#article-author-url').val(),
     category: $('#article-category').val(),
     body: $('#article-body').val(),
     publishedOn: $('#article-published:checked').length ? new Date() : null
-  });
+  };
+};
+
+// COMMENT: When is this function called? What event ultimately triggers its execution?
+// In the event handler for the form. When the form has changed.
+articleView.preview = () => {
+  $('#articles').empty();
+
+  const data = articleView.getFromData();
+  const article = new Article(data);
 
   $('#articles').append(article.toHtml());
 
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
-  // TODO: Do we need an export field?
-  $('#export-field').show();
-  $('#article-json').val(`${JSON.stringify(article)},`);
+  // TODOne: Do we need an export field? No.
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// In the event handler for the submit button. It will trigger when the submit button is clicked.
 articleView.submit = event => {
   event.preventDefault();
-  // TODO: Extract the getDataFrom form from the preview, so you can
+  // TODOne: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = {}; // Call the raw data method
+  const data = articleView.getFromData(); // Call the raw data method
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
+  // It is defined in the next function, it is called here, and it is triggered in the event handler for the submit button.
   articleView.insertRecord(data);
 };
 
@@ -154,10 +156,9 @@ articleView.submit = event => {
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
 articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
   // TODO: POST the article to the server
-
-
+  $.post('/api/articles', data);
   // when the save is complete, console.log the returned data object
-
+  return console.log(data);
   // STRETCH: pick one that happens _after_ post is done:
   // 1) clear the form, so user can input a new one
   // 2) navigate to the index page
@@ -175,7 +176,7 @@ articleView.setupView = () => {
 
 articleView.initIndexPage = () => {
   // 1) initiate data loading
-  articleView.loadArticles();
+  articleView.fetchAll();
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };
