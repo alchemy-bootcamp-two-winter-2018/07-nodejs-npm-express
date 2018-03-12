@@ -32,16 +32,14 @@ app.get('/api/articles', (request, response) => {
 // TODOne: server your articles data on GET /api/articles
 app.post('/api/articles', bodyParser, (request, response) => {
   // REVIEW: This route will receive a new article from the form page, new.html, and log that form data to the console. We will wire this up soon to actually write a record to our persistence layer!
-  console.log(request.body);
+  // for now just return the body...
 
-  const file = `${__dirname}/data/hackerIpsum.json`;
+  const file = `data/hackerIpsum.json`;
   const raw = fs.readFileSync(file);
+  console.log('Article posted');
   const articles = JSON.parse(raw);
   articles.push(request.body);
   fs.writeFileSync(file, JSON.stringify(articles, true, 2));
-
-  // for now just return the body...
-  response.send(request.body);
 
   // STRETCH GOAL: read, change, and write the data file ^^^^ DONE
 });

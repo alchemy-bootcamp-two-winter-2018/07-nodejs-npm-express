@@ -94,6 +94,7 @@ articleView.fetchAll = () => {
   } else {
     $.getJSON('/api/articles')
       .then (data => {
+        console.log('I am getting');
         localStorage.rawData = JSON.stringify(data);
         articleView.loadArticles(data);
         articleView.setupView();
@@ -127,14 +128,14 @@ articleView.preview = () => {
 };
 
 articleView.getFormData = function (){
-  return new Article({
+  return new Article ({
     title: $('#article-title').val(),
     author: $('#article-author').val(),
     authorUrl: $('#article-author-url').val(),
     category: $('#article-category').val(),
     body: $('#article-body').val(),
     publishedOn: $('#article-published:checked').length ? new Date() : null
-  } );
+  });
 },
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
@@ -144,23 +145,23 @@ articleView.submit = event => {
   
   // TODO: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const article = articleView.getFormData();
+  const data = articleView.getFormData();
 
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
   // It is defined literally right after this, and called literally right here.  The submit button triggers this whole function.
-  articleView.insertRecord(article);
+  articleView.insertRecord(data);
 };
 
 
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
 articleView.insertRecord = data => {
-  // TODO: POST the article to the server
-  $.post('/api/articles', data)
-    .then( ()=> {
-      $('#new-form')[0].reset();
-    });
+  // TODOne: POST the article to the server
+  $.post('/api/articles', data);
+  return console.log(data);
+
   // when the save is complete, console.log the returned data object
+  // $('form')[0].reset();
 
   // STRETCH: pick one that happens _after_ post is done:
   // 1) clear the form, so user can input a new one
