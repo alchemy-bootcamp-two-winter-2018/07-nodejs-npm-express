@@ -75,7 +75,7 @@ articleView.setTeasers = () => {
 };
 
 // COMMENT: When/where is this function invoked? What event ultimately triggers its execution? Explain the sequence of code execution when this function is invoked.
-// PUT YOUR RESPONSE HERE
+// This loads new page scripts in new.html
 articleView.initNewArticlePage = () => {
   $('.tab-content').show();
   $('#export-field').hide();
@@ -92,10 +92,9 @@ articleView.fetchAll = () => {
     articleView.loadArticles(JSON.parse(localStorage.rawData));
     articleView.setupView();
   } else {
-    // TODO update me to work with actual new server path
-    $.getJSON('/data/hackerIpsum.json')
-      .then(data => {
-        // store the data for next time!
+    $.getJSON('/api/articles')
+      .then (data => {
+        console.log('I am getting');
         localStorage.rawData = JSON.stringify(data);
         articleView.loadArticles(data);
         articleView.setupView();
@@ -106,19 +105,30 @@ articleView.fetchAll = () => {
 };
 
 articleView.loadArticles = rawData => {
-  const articles = Article.loadAll(rawData);
+  const articles = Article.load(rawData);
   articles.forEach(article =>{
     $('#articles').append(article.toHtml());
   });
 };
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// This calls the scripts neccesary to preview and work with the new file written in new.html.  It is triggered by a 'change' in the form element.
 articleView.preview = () => {
-  let article;
   $('#articles').empty();
 
-  article = new Article({
+  const article = articleView.getFormData();
+
+  $('#articles').append(article.toHtml());
+
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+  // TODOne: Do we need an export field? No
+  // $('#article-json').val(`${JSON.stringify(article)},`);
+};
+
+articleView.getFormData = function (){
+  return new Article ({
     title: $('#article-title').val(),
     author: $('#article-author').val(),
     authorUrl: $('#article-author-url').val(),
@@ -126,37 +136,32 @@ articleView.preview = () => {
     body: $('#article-body').val(),
     publishedOn: $('#article-published:checked').length ? new Date() : null
   });
-
-  $('#articles').append(article.toHtml());
-
-  $('pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
-  // TODO: Do we need an export field?
-  $('#export-field').show();
-  $('#article-json').val(`${JSON.stringify(article)},`);
-};
+},
 
 // COMMENT: When is this function called? What event ultimately triggers its execution?
-// PUT YOUR RESPONSE HERE
+// This will be triggered on new.html when the submit button is triggered there to publish a new article.
 articleView.submit = event => {
   event.preventDefault();
+  
   // TODO: Extract the getDataFrom form from the preview, so you can
   // use it here to get the raw data!
-  const data = {}; // Call the raw data method
+  const data = articleView.getFormData();
+
   // COMMENT: Where is this function defined? When is this function called? 
   // What event ultimately triggers its execution?
-  // PUT YOUR RESPONSE HERE
+  // It is defined literally right after this, and called literally right here.  The submit button triggers this whole function.
   articleView.insertRecord(data);
 };
 
 
 // REVIEW: This new prototype method on the Article object constructor will allow us to create a new article from the new.html form page, and submit that data to the back-end. We will see this log out to the server in our terminal!
-articleView.insertRecord = data => { /* eslint-disable-line */ // TODO: remove me when article is used in method! 
-  // TODO: POST the article to the server
-
+articleView.insertRecord = data => {
+  // TODOne: POST the article to the server
+  $.post('/api/articles', data);
+  return console.log(data);
 
   // when the save is complete, console.log the returned data object
+  // $('form')[0].reset();
 
   // STRETCH: pick one that happens _after_ post is done:
   // 1) clear the form, so user can input a new one
@@ -175,7 +180,7 @@ articleView.setupView = () => {
 
 articleView.initIndexPage = () => {
   // 1) initiate data loading
-  articleView.loadArticles();
+  articleView.fetchAll();
   // 2) do setup that doesn't require data being loaded
   articleView.handleMainNav();
 };

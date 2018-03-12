@@ -1,0 +1,29 @@
+{
+  "name": "07-nodejs-npm-express",
+  "version": "1.0.0",
+  "description": "Lab 7",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "pokemon": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jklipton/07-nodejs-npm-express.git"
+  },
+  "author": "Jen Lipton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jklipton/07-nodejs-npm-express/issues"
+  },
+  "homepage": "https://github.com/jklipton/07-nodejs-npm-express#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "expressjs": "^1.0.1",
+    "sn-filesync": "^4.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  }
+}

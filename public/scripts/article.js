@@ -11,7 +11,7 @@ function Article (rawDataObj) {
   this.publishedOn = rawDataObj.publishedOn;
   this.daysAgo = parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000);
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
-  this.body = marked(this.body);
+  this.body = this.body;
 }
 
 Article.prototype.toHtml = function() {
